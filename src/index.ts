@@ -1,5 +1,4 @@
 import cors from "cors";
-
 import dotenv from "dotenv";
 import express from "express";
 
@@ -12,12 +11,14 @@ const port = process.env.PORT || 8000;
 dotenv.config();
 connectDB();
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
+// NOTE: Use this only if you are deploying
+// and if you wanna make this acccessible via frontend.
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL,
+//     credentials: true,
+//   })
+// );
 
 app.use(authRouter);
 
