@@ -1,11 +1,11 @@
 import cookieParser from "cookie-parser";
-
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 
 import authRouter from "./routes/auth-router";
 import connectDB from "./connections/database";
+import { errorHandler } from "./middlewares/error-handler";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -24,6 +24,21 @@ connectDB();
 
 app.use(authRouter);
 app.use(cookieParser());
+app.use(errorHandler);
+
+export interface UserBasicInfo {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: UserBasicInfo | null;
+    }
+  }
+}
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
